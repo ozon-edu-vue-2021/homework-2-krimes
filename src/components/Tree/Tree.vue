@@ -7,7 +7,7 @@
         :is-extend="isDirectoryExtend"
         :is-select="isSelect"
         @extend="doExtend"
-        @select="$listeners.select"
+        v-on="$listeners"
       >
         <template v-if="isDirectory && isDirectoryExtend">
           <tree
