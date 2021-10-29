@@ -1,19 +1,22 @@
 <template>
   <div class="tree">
-    <button v-if="isDirectory" @click="isDirectoryExtend = !isDirectoryExtend">
-      {{ isDirectoryExtend ? '-': '+' }}
-    </button>
-    <component 
-      :is="componentItemType"
-      :item="item"
-    >
-      <template v-if="isDirectory && isDirectoryExtend">
-        <tree
-          v-for="(subItem, index) of item.contents"
-          :key="subItem.name+index"
-          :item="subItem"></tree>
-      </template>
-    </component>
+    <div class="tree__item">
+      <component 
+        :is="componentItemType"
+        :item="item"
+        :is-extend="isDirectoryExtend"
+        @extend="isDirectoryExtend = !isDirectoryExtend"
+      >
+        <template v-if="isDirectory && isDirectoryExtend">
+          <tree
+            v-for="(subItem, index) of sortFolderFirst(item.contents)"
+            :key="subItem.name+index"
+            :item="subItem"
+            :level="level + 1"></tree>
+        </template>
+      </component>
+    </div>
+    {{ sortFolderFirst(item.contents) }}
   </div>
 </template>
 
@@ -36,6 +39,10 @@ export default {
     item: {
       type: Object,
       required: true,
+    },
+    level: {
+      type: Number,
+      default: () => 0
     }
   },
 
@@ -64,10 +71,25 @@ export default {
           return null
       }
     },
+
+    // calcMargin () {
+    //   const { level } = this
+
+    //   return { marginLeft: level * 25 + 'px' }
+    // }
   },
+
+  methods: {
+    sortFolderFirst (items) {
+      return items.sort((a,b) => a.type !== b.type && b.type === TYPE.DIRECTORY ? -1 : 0) 
+    }
+  }
 }
 </script>
 
 <style>
-
+.tree {
+  display: block;
+  margin-left: 25px;
+}
 </style>
