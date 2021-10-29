@@ -1,19 +1,25 @@
 <template>
   <div class="folder">
-    <div class="folder__container">
+    <div class="folder__container" @click="$emit('extend')">
       <div class="folder__extend">
-        <button @click="$emit('extend')">
+        <button>
           {{ isExtend ? '-': '+' }}
         </button>
       </div>
-      Folder: {{ item.name }} 
+      <icon name="folder"></icon>
+      {{ item.name }} 
     </div>
     <slot></slot>
   </div>
 </template>
 
 <script>
+import Icon from '../Icon/Icon.vue'
 export default {
+  components: {
+    Icon,
+  },
+
   props: {
     item: {
       type: Object,
@@ -34,6 +40,8 @@ export default {
 <style>
 .folder__container {
   display: flex;
+  padding-left: 2px;
+  margin-top: 2px;
 }
 
 .folder__extend { 

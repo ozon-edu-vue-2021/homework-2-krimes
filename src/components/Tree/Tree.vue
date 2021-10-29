@@ -5,18 +5,19 @@
         :is="componentItemType"
         :item="item"
         :is-extend="isDirectoryExtend"
-        @extend="isDirectoryExtend = !isDirectoryExtend"
+        :is-select="isItemSelected"
+        @extend="doExtend"
+        @select="(item) => isItemSelected = item"
       >
         <template v-if="isDirectory && isDirectoryExtend">
           <tree
-            v-for="(subItem, index) of sortFolderFirst(item.contents)"
+            v-for="(subItem, index) of item.contents"
             :key="subItem.name+index"
             :item="subItem"
             :level="level + 1"></tree>
         </template>
       </component>
     </div>
-    {{ sortFolderFirst(item.contents) }}
   </div>
 </template>
 
@@ -49,6 +50,7 @@ export default {
   data() {
     return {
       isDirectoryExtend: false,
+      isItemSelected: null,
     }
   },
 
@@ -80,9 +82,12 @@ export default {
   },
 
   methods: {
-    sortFolderFirst (items) {
-      return items.sort((a,b) => a.type !== b.type && b.type === TYPE.DIRECTORY ? -1 : 0) 
-    }
+    doExtend () {
+      if (this.isDirectoryExtend) {
+        this.isItemSelected = null
+      }
+      this.isDirectoryExtend = !this.isDirectoryExtend
+    },
   }
 }
 </script>
