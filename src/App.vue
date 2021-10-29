@@ -1,18 +1,27 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <tree :item="treeData"></tree>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Tree from './components/Tree/Tree.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
+  components: { 
+    Tree,
+  },
+  data() {
+    return {
+      treeData: {},
+    }
+  },
+  async mounted () {
+    this.treeData = await fetch('/static/node_modules.json')
+      .then(res => res.json())
+  },
 }
 </script>
 
