@@ -40,6 +40,6 @@ export default {
 }
 .file__selected {
   text-decoration: underline;
-  color: aqua;
+  color: #06a800;
 }
 </style>
