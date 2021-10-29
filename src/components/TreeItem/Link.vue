@@ -1,6 +1,6 @@
 <template>
   <div :class="classes" @click="$emit('select', item.name)">
-    <icon name="link"></icon>
+    <icon name="Link"></icon>
     {{ item.name }} 
   </div>
 </template>
