@@ -5,16 +5,19 @@
         :is="componentItemType"
         :item="item"
         :is-extend="isDirectoryExtend"
-        :is-select="isItemSelected"
+        :is-select="isSelect"
         @extend="doExtend"
-        @select="(item) => isItemSelected = item"
+        @select="$listeners.select"
       >
         <template v-if="isDirectory && isDirectoryExtend">
           <tree
             v-for="(subItem, index) of item.contents"
             :key="subItem.name+index"
             :item="subItem"
-            :level="level + 1"></tree>
+            :level="level + 1"
+            :is-select="isItemSelected"
+            @select="(item) => isItemSelected = item"
+          ></tree>
         </template>
       </component>
     </div>
@@ -44,7 +47,10 @@ export default {
     level: {
       type: Number,
       default: () => 0
-    }
+    },
+    isSelect: {
+      type: String,
+    },
   },
 
   data() {
